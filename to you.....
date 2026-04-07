@@ -1,0 +1,80 @@
+cat << 'EOF' > hati.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>For Nisa</title>
+    <style>
+        body { margin: 0; background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; font-family: 'Arial', sans-serif; }
+        
+        /* Efek Bintang */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle 2s infinite alternate; }
+        @keyframes twinkle { from { opacity: 0.3; } to { opacity: 1; } }
+
+        /* Hati Pro */
+        .heart-box { position: absolute; z-index: 10; width: 150px; }
+        .heart-path { fill: none; stroke: #ff2d55; stroke-width: 1.5; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 4s ease-in-out forwards; filter: drop-shadow(0 0 8px #ff2d55); }
+        .heart-fill { fill: #ff2d55; opacity: 0; animation: glow 3s ease-in-out forwards 4s; filter: drop-shadow(0 0 20px #ff2d55); }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes glow { from { opacity: 0; transform: scale(0.8); } to { opacity: 0.8; transform: scale(1); } }
+
+        /* Animasi Huruf */
+        .letter-container { position: absolute; z-index: 20; font-size: 40px; letter-spacing: 5px; font-weight: bold; text-align: center; }
+        .single-letter { position: absolute; width: 100vw; left: 0; top: 50%; transform: translateY(-50%); opacity: 0; animation: letterAnim 1.5s ease-in-out forwards; }
+        @keyframes letterAnim { 
+            0% { opacity: 0; filter: blur(10px); transform: translateY(-40%); }
+            30% { opacity: 1; filter: blur(0); transform: translateY(-50%); }
+            70% { opacity: 1; filter: blur(0); transform: translateY(-50%); }
+            100% { opacity: 0; filter: blur(10px); transform: translateY(-60%); }
+        }
+
+        /* Hasil Akhir Vertikal */
+        .final-text { position: absolute; bottom: 10%; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 20px; opacity: 0; animation: finalShow 2s forwards 22s; }
+        @keyframes finalShow { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="heart-box">
+        <svg viewBox="0 0 32 29.6">
+            <path class="heart-path" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" />
+            <path class="heart-fill" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" />
+        </svg>
+    </div>
+
+    <div id="letter-box" class="letter-container"></div>
+
+    <div class="final-text">
+        <span>I</span><span>LOVE</span><span>YOU</span><span style="color:#ff2d55">NISA</span>
+    </div>
+
+    <script>
+        // Buat Bintang Acak
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.width = star.style.height = Math.random() * 3 + 'px';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Tampilkan Huruf Satu per Satu
+        const letters = ["I", "L", "O", "V", "E", "Y", "O", "U", "N", "I", "S", "A"];
+        const box = document.getElementById('letter-box');
+        letters.forEach((l, i) => {
+            setTimeout(() => {
+                const span = document.createElement('div');
+                span.className = 'single-letter';
+                span.innerText = l;
+                box.appendChild(span);
+            }, 6000 + (i * 1200)); // Mulai setelah hati, jeda 1.2 detik per huruf
+        });
+    </script>
+</body>
+</html>
+EOF
